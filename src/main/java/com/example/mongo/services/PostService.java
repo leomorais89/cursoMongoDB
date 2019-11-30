@@ -1,5 +1,6 @@
 package com.example.mongo.services;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class PostService {
 		return comments;
 	}
 	
-	public List<Post> find(String text) {
-		return repo.findByTitleContainingIgnoreCase(text); 
+	public List<Post> find(String text, Instant minDate, Instant maxDate) {
+		return repo.findByText(text, minDate, maxDate); 
 	}
 }

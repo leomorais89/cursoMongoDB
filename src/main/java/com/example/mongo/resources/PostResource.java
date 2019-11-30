@@ -1,6 +1,7 @@
 package com.example.mongo.resources;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,10 +61,12 @@ public class PostResource {
 		return ResponseEntity.ok().body(comments);
 	}
 	
-	@GetMapping(value = "/titlesearch")
-	public ResponseEntity<List<Post>> find(@RequestParam(value = "text", defaultValue = "") String text) {
+	@GetMapping(value = "/search")
+	public ResponseEntity<List<Post>> find(@RequestParam(value = "text", defaultValue = "") String text, @RequestParam(value = "minDate", defaultValue = "") String minDate, @RequestParam(value = "maxDate", defaultValue = "") String maxDate) {
 		text = URL.urlDecode(text);
-		List<Post> posts = service.find(text);
+		Instant dataIni = URL.convertDate(minDate, Instant.EPOCH);
+		Instant dataFim = URL.convertDate(maxDate, Instant.now());
+		List<Post> posts = service.find(text, dataIni, dataFim);
 		return ResponseEntity.ok().body(posts);
 	}
 }
