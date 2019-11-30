@@ -35,7 +35,7 @@ public class ConfigTest implements CommandLineRunner {
 		
 		userRepo.saveAll(Arrays.asList(maria, alex, bob));
 		
-		Post p1 = new Post(null, Instant.parse("2019-10-20T22:40:00Z"), "Viagem", "Vou viajar para São Paulo", new AuthorDTO(maria));
+		Post p1 = new Post(null, Instant.parse("2019-10-20T22:40:00Z"), "Partiu Viagem", "Vou viajar para São Paulo", new AuthorDTO(maria));
 		Post p2 = new Post(null, Instant.parse("2019-10-10T22:40:00Z"), "Viagem", "Vou viajar para Argentina", new AuthorDTO(bob));
 		
 		postRepo.saveAll(Arrays.asList(p1, p2));

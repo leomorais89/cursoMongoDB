@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.mongo.dto.CommentDTO;
 import com.example.mongo.entity.Post;
+import com.example.mongo.resources.util.URL;
 import com.example.mongo.services.PostService;
 
 @RestController
@@ -56,5 +58,12 @@ public class PostResource {
 	public ResponseEntity<List<CommentDTO>> findByPost(@PathVariable String id) {
 		List<CommentDTO> comments = service.findByPost(id);
 		return ResponseEntity.ok().body(comments);
+	}
+	
+	@GetMapping(value = "/titlesearch")
+	public ResponseEntity<List<Post>> find(@RequestParam(value = "text", defaultValue = "") String text) {
+		text = URL.urlDecode(text);
+		List<Post> posts = service.find(text);
+		return ResponseEntity.ok().body(posts);
 	}
 }

@@ -52,4 +52,8 @@ public class PostService {
 		List<CommentDTO> comments = post.getComments();
 		return comments;
 	}
+	
+	public List<Post> find(String text) {
+		return repo.findByTitleContainingIgnoreCase(text); 
+	}
 }
