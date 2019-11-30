@@ -1,6 +1,7 @@
 package com.example.mongo.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.mongo.dto.CommentDTO;
 import com.example.mongo.entity.Post;
 import com.example.mongo.services.PostService;
 
@@ -48,5 +50,11 @@ public class PostResource {
 		post.setId(id);
 		post = service.update(post);
 		return ResponseEntity.ok().body(post);
+	}
+	
+	@GetMapping(value = "/{id}/comments")
+	public ResponseEntity<List<CommentDTO>> findByPost(@PathVariable String id) {
+		List<CommentDTO> comments = service.findByPost(id);
+		return ResponseEntity.ok().body(comments);
 	}
 }

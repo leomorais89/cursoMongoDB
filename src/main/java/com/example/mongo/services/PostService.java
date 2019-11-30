@@ -1,8 +1,11 @@
 package com.example.mongo.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.mongo.dto.CommentDTO;
 import com.example.mongo.entity.Post;
 import com.example.mongo.entity.User;
 import com.example.mongo.repository.PostRepository;
@@ -42,5 +45,11 @@ public class PostService {
 		newPost.setTitle(post.getTitle());
 		newPost.setBody(post.getBody());
 		return repo.save(newPost);
+	}
+	
+	public List<CommentDTO> findByPost(String id) {
+		Post post = repo.findById(id).get();
+		List<CommentDTO> comments = post.getComments();
+		return comments;
 	}
 }
