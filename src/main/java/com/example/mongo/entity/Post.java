@@ -1,34 +1,36 @@
 package com.example.mongo.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.example.mongo.dto.AuthorDTO;
+
 @Document
-public class User implements Serializable {
+public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String id;
-	private String nome;
-	private String email;
+	private Instant date;
+	private String title;
+	private String body;
 	
-	@DBRef(lazy = true)
-	private List<Post> posts = new ArrayList<>();
+	private AuthorDTO author;
 	
-	public User() {
+	public Post() {
 		
 	}
 
-	public User(String id, String nome, String email) {
+	public Post(String id, Instant date, String title, String body, AuthorDTO author) {
 		super();
 		this.id = id;
-		this.nome = nome;
-		this.email = email;
+		this.date = date;
+		this.title = title;
+		this.body = body;
+		this.author = author;
 	}
 
 	public String getId() {
@@ -39,20 +41,36 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Instant getDate() {
+		return date;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setDate(Instant date) {
+		this.date = date;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public AuthorDTO getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(AuthorDTO author) {
+		this.author = author;
 	}
 
 	@Override
@@ -63,10 +81,6 @@ public class User implements Serializable {
 		return result;
 	}
 
-	public List<Post> getPosts() {
-		return posts;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -75,7 +89,7 @@ public class User implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Post other = (Post) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
