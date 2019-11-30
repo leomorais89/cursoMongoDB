@@ -1,7 +1,5 @@
 package com.example.mongo.services;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +27,14 @@ public class PostService {
 		user.getPosts().add(post);
 		userRepo.save(user);
 		return post;
+	}
+	
+	public void deleteById(String id) {
+		Post post = findById(id);
+		User user = userRepo.findById(post.getAuthor().getId()).get();
+		user.getPosts().remove(post);
+		userRepo.save(user);
+		repo.deleteById(id);
 	}
 	
 	public Post update(Post post) {
