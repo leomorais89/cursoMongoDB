@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.mongo.dto.AuthorDTO;
+import com.example.mongo.dto.CommentDTO;
 import com.example.mongo.entity.Post;
 import com.example.mongo.entity.User;
 import com.example.mongo.repository.PostRepository;
@@ -43,6 +44,14 @@ public class ConfigTest implements CommandLineRunner {
 		bob.getPosts().add(p2);
 		
 		userRepo.saveAll(Arrays.asList(maria, bob));
+		
+		CommentDTO c1 = new CommentDTO(null, "Boa viagem irmão", Instant.parse("2019-10-20T23:40:00Z"), p1, new AuthorDTO(alex));
+		CommentDTO c2 = new CommentDTO(null, "Divirta-se", Instant.parse("2019-10-10T23:40:00Z"), p2, new AuthorDTO(alex));
+		
+		p1.getComments().add(c1);
+		p2.getComments().add(c2);
+		
+		postRepo.saveAll(Arrays.asList(p1, p2));
 	}
 
 }
