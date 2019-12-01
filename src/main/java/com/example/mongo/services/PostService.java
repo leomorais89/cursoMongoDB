@@ -2,6 +2,7 @@ package com.example.mongo.services;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.example.mongo.entity.Post;
 import com.example.mongo.entity.User;
 import com.example.mongo.repository.PostRepository;
 import com.example.mongo.repository.UserRepository;
+import com.example.mongo.services.exception.ResourceNotFoundException;
 
 @Service
 public class PostService {
@@ -22,7 +24,12 @@ public class PostService {
 	private UserRepository userRepo;
 	
 	public Post findById(String id) {
-		return repo.findById(id).get();
+		try {
+			return repo.findById(id).get();
+		}
+		catch (NoSuchElementException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+		}
 	}
 	
 	public Post insert(Post post) {
@@ -49,9 +56,14 @@ public class PostService {
 	}
 	
 	public List<CommentDTO> findByPost(String id) {
-		Post post = repo.findById(id).get();
-		List<CommentDTO> comments = post.getComments();
-		return comments;
+		try {
+			Post post = repo.findById(id).get();
+			List<CommentDTO> comments = post.getComments();
+			return comments;
+		}
+		catch (NoSuchElementException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+		}
 	}
 	
 	public List<Post> find(String text, Instant minDate, Instant maxDate) {
